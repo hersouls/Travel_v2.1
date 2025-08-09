@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import { Home } from '../Home';
 import * as firestore from 'firebase/firestore';
+import { useAuth } from '../../contexts';
 
 // React Router 모킹
 const mockNavigate = jest.fn();
@@ -89,7 +90,7 @@ describe('Home', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     
-    mockUseAuth = require('../../contexts').useAuth;
+    mockUseAuth = useAuth as unknown as jest.Mock;
     mockOnSnapshot = firestore.onSnapshot as jest.Mock;
     mockDeleteDoc = firestore.deleteDoc as jest.Mock;
     
