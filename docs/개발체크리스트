@@ -1,0 +1,765 @@
+# ✈️ Moonwave 여행 관리 개발 체크리스트 v2.0
+
+> **"여행의 모든 순간을 담다" - 6개 화면으로 구성된 완전한 여행 관리 서비스 개발 가이드**  
+> Firebase + React 19 기반 실시간 여행 계획 관리 시스템
+
+---
+
+## 📋 목차
+1. [프로젝트 초기 설정](#프로젝트-초기-설정)
+2. [기술 스택 설정](#기술-스택-설정)
+3. [Firebase 설정](#firebase-설정)
+4. [프로젝트 구조 설정](#프로젝트-구조-설정)
+5. [데이터 모델 및 인터페이스](#데이터-모델-및-인터페이스)
+6. [UI/UX 컴포넌트 개발](#uiux-컴포넌트-개발)
+7. [화면별 페이지 개발](#화면별-페이지-개발)
+8. [Firebase 연동](#firebase-연동)
+9. [지도 기능 구현](#지도-기능-구현)
+10. [성능 최적화](#성능-최적화)
+11. [배포 및 인프라](#배포-및-인프라)
+12. [테스트 및 품질 관리](#테스트-및-품질-관리)
+
+---
+
+## 🚀 프로젝트 초기 설정
+
+### 1.1 프로젝트 생성 및 기본 설정
+
+#### 개발자 작업
+- [x] GitHub 저장소 `hersouls/Travel_v2.0` 생성
+- [ ] 프로젝트 README.md 작성 (여행 관리 서비스 개요)
+- [x] 도메인 `travel.moonwave.kr` DNS 설정
+- [ ] Vercel 배포 설정 (GitHub Actions 연동)
+
+#### 시스템 구축 작업
+- [x] Vite + React 19 + TypeScript 프로젝트 생성
+- [x] 기본 프로젝트 구조 설정 (`src/`, `public/`, `docs/`)
+- [x] ESLint, Prettier 설정
+- [x] Git 초기 설정 및 첫 커밋
+
+### 1.2 개발 환경 설정
+
+#### 개발자 작업
+- [x] Firebase 프로젝트 생성 (`travel-v2-e5507`)
+- [x] Firebase 환경 설정 (Development/Production)
+- [ ] 도메인 연결 및 SSL 설정
+- [ ] 샘플 이미지 및 아이콘 준비
+
+#### 시스템 구축 작업
+- [x] Node.js 버전 설정 (v20+)
+- [x] 개발 서버 설정 (포트 3001)
+- [x] 환경변수 설정 (`.env`, `.env.local`)
+- [x] Hot Module Replacement 설정
+
+---
+
+## 🛠️ 기술 스택 설정
+
+### 2.1 핵심 의존성 설치
+
+#### 시스템 구축 작업
+- [x] React 19 설치 및 설정
+- [x] TypeScript 설정 (`tsconfig.json`)
+- [x] Vite 설정 (`vite.config.ts`)
+- [x] Tailwind CSS 설치 및 설정
+- [x] Radix UI 컴포넌트 라이브러리 설치
+
+### 2.2 추가 라이브러리 설치
+
+#### 시스템 구축 작업
+- [x] React Router DOM 설치 (SPA 라우팅)
+- [x] Firebase SDK 설치 (`firebase/app`, `firebase/firestore`, `firebase/auth`, `firebase/storage`)
+- [x] 아이콘 라이브러리 설치 (`lucide-react`)
+- [x] 유틸리티 라이브러리 설치 (`clsx`, `tailwind-merge`)
+- [x] 폼 관리 라이브러리 설치 (`react-hook-form`)
+- [x] 지도 라이브러리 설치 (`leaflet`, `react-leaflet`)
+
+### 2.3 설정 파일 구성
+
+#### 시스템 구축 작업
+- [x] `tailwind.config.js` 설정 (Moonwave 브랜드 컬러, Container Queries)
+- [x] `package.json` 스크립트 설정 (dev, build, preview, type-check)
+- [x] TypeScript 타입 정의 파일 생성
+- [x] 환경 변수 타입 정의 (`env.d.ts`)
+
+---
+
+## 🔥 Firebase 설정
+
+### 3.1 Firebase 프로젝트 초기화
+
+#### 개발자 작업
+- [x] Firebase 콘솔에서 프로젝트 생성
+- [x] Firebase Authentication 설정 (익명 로그인 활성화)
+- [x] Cloud Firestore 데이터베이스 생성 (테스트 모드)
+- [x] Firebase Storage 설정 (이미지 업로드용) - 서울 리전
+
+#### 시스템 구축 작업
+- [x] Firebase SDK 초기화 (`src/lib/firebase.ts`)
+- [x] Firebase 설정 객체 환경변수 분리
+- [x] Authentication 서비스 설정
+- [x] Firestore 서비스 설정
+- [x] Storage 서비스 설정
+
+### 3.2 보안 규칙 설정
+
+#### 개발자 작업
+- [ ] Firestore Security Rules 작성
+  ```javascript
+  // trips 컬렉션: 사용자별 접근 제한
+  match /trips/{tripId} {
+    allow read, write: if resource.data.user_id == request.auth.uid;
+    match /plans/{planId} {
+      allow read, write: if get(/databases/$(database)/documents/trips/$(tripId)).data.user_id == request.auth.uid;
+    }
+  }
+  
+  // users 컬렉션: 개인 데이터 보호
+  match /users/{userId} {
+    allow read, write: if request.auth.uid == userId;
+    match /places/{placeId} {
+      allow read, write: if request.auth.uid == userId;
+    }
+  }
+  ```
+- [ ] Storage Security Rules 작성
+- [ ] 테스트 환경과 프로덕션 환경 규칙 분리
+
+### 3.3 데이터베이스 구조 설계
+
+#### 시스템 구축 작업
+- [ ] Firestore 컬렉션 구조 설계
+  ```
+  trips/
+    └── {tripId}/
+        ├── (trip 기본 정보)
+        └── plans/ (서브컬렉션)
+            └── {planId}
+  
+  users/
+    └── {userId}/
+        ├── profile
+        └── places/ (개인 장소 라이브러리)
+            └── {placeId}
+  ```
+- [ ] 인덱스 설정 (쿼리 최적화)
+- [ ] 복합 인덱스 생성 (정렬 및 필터링)
+
+---
+
+## 📁 프로젝트 구조 설정
+
+### 4.1 디렉토리 구조 생성
+
+#### 시스템 구축 작업
+- [x] `src/components/` 디렉토리 생성
+  - [x] `src/components/ui/` (Radix UI 기반 컴포넌트)
+  - [x] `src/components/travel/` (여행 관련 컴포넌트)
+  - [ ] `src/components/layout/` (레이아웃 컴포넌트)
+  - [ ] `src/components/map/` (지도 관련 컴포넌트)
+- [x] `src/pages/` 디렉토리 생성 (6개 주요 화면)
+- [x] `src/hooks/` 디렉토리 생성 (커스텀 훅) - 필요시 생성
+- [x] `src/lib/` 디렉토리 생성 (유틸리티, Firebase 설정)
+- [x] `src/types/` 디렉토리 생성 (TypeScript 타입 정의)
+- [x] `src/styles/` 디렉토리 생성 (글로벌 스타일)
+- [x] `src/contexts/` 디렉토리 생성 (React Context)
+
+### 4.2 정적 파일 구조
+
+#### 개발자 작업
+- [ ] `public/images/` 디렉토리 생성 및 기본 이미지 준비
+- [ ] `public/icons/` 디렉토리 생성 및 PWA 아이콘 준비
+- [ ] Moonwave 브랜드 로고 파일 준비
+
+#### 시스템 구축 작업
+- [ ] `public/manifest.json` 생성 (PWA 설정)
+- [ ] `public/robots.txt` 생성
+- [ ] `public/favicon.ico` 설정
+- [ ] Service Worker 기본 설정
+
+---
+
+## 📊 데이터 모델 및 인터페이스
+
+### 5.1 핵심 타입 정의
+
+#### 시스템 구축 작업
+- [x] `src/types/trip.ts` 생성
+  ```typescript
+  interface Trip {
+    id: string;
+    user_id: string;
+    title: string;
+    country: string;
+    start_date: string;
+    end_date: string;
+    cover_image?: string;
+    plans_count?: number;
+    created_at: Timestamp;
+    updated_at: Timestamp;
+  }
+  ```
+- [x] `src/types/plan.ts` 생성
+  ```typescript
+  interface Plan {
+    day: number;
+    place_name: string;
+    start_time: string;
+    end_time?: string;
+    type: 'attraction' | 'restaurant' | 'hotel' | 'transport' | 'other';
+    address?: string;
+    rating?: number;
+    memo?: string;
+    photos?: string[];
+    youtube_link?: string;
+    map_url?: string;
+    latitude?: number;
+    longitude?: number;
+    trip_id: string;
+    created_at: Timestamp;
+    updated_at: Timestamp;
+  }
+  ```
+- [x] `src/types/place.ts` 생성 (개인 장소 라이브러리)
+- [x] `src/types/auth.ts` 생성 (사용자 인증 관련)
+
+### 5.2 상태 관리 타입
+
+#### 시스템 구축 작업
+- [x] `src/types/app.ts` 생성
+  ```typescript
+  interface AppState {
+    user: User | null;
+    trips: Trip[];
+    currentTrip: Trip | null;
+    isLoading: boolean;
+    error: string | null;
+  }
+  ```
+- [x] Context API 타입 정의
+- [x] 커스텀 훅 반환 타입 정의 - AuthContextType 완료
+
+---
+
+## 🎨 UI/UX 컴포넌트 개발
+
+### 6.1 Moonwave Style v3.2 컴포넌트
+
+#### 시스템 구축 작업
+- [x] `GlassCard` 컴포넌트 개발 (글래스모피즘) - travel variant 추가
+  ```typescript
+  interface GlassCardProps {
+    variant?: 'default' | 'strong' | 'light';
+    withWaveEffect?: boolean;
+    hoverable?: boolean;
+    className?: string;
+    children: React.ReactNode;
+  }
+  ```
+- [x] `WaveButton` 컴포넌트 개발 (리플 애니메이션) - travel variant 추가
+- [ ] `Typography` 컴포넌트 개발 (한글 최적화) - 필요시 추가
+- [ ] `LoadingSpinner` 컴포넌트 개발 - 필요시 추가  
+- [ ] `ErrorBoundary` 컴포넌트 개발 - 필요시 추가
+
+### 6.2 여행 관련 컴포넌트
+
+#### 시스템 구축 작업
+- [x] `TripCard` 컴포넌트 개발
+  - [x] 커버 이미지 표시
+  - [x] 여행 기간 및 진행률 표시
+  - [x] 호버 효과 및 클릭 액션
+- [x] `PlanCard` 컴포넌트 개발 (DayPlanCard → PlanCard로 명명)
+  - [x] 시간, 장소, 유형 표시
+  - [x] 평점, 사진, 링크 표시
+  - [x] 유형별 아이콘 및 색상 구분
+- [ ] `PlaceCard` 컴포넌트 개발 (장소 검색용) - PlaceSearch 화면에서 구현
+- [ ] `ImageUploader` 컴포넌트 개발 (drag & drop) - 필요시 추가
+
+### 6.3 폼 컴포넌트
+
+#### 시스템 구축 작업
+- [ ] `FormField` 컴포넌트 개발 (react-hook-form 연동) - 필요시 추가
+- [ ] `DateRangePicker` 컴포넌트 개발 - TripCreate에서 구현
+- [ ] `StarRating` 컴포넌트 개발 (0.5 단위 평점) - PlanDetail에서 구현
+- [ ] `PhotoGallery` 컴포넌트 개발 (최대 5장) - PlanDetail에서 구현
+- [ ] `CoordinateInput` 컴포넌트 개발 (지도용) - TripMap에서 구현
+
+### 6.4 레이아웃 컴포넌트
+
+#### 시스템 구축 작업
+- [ ] `Layout` 컴포넌트 개발 - 화면별로 단순하게 구성
+  - [x] 반응형 컨테이너 - 각 화면에서 적용 완료
+  - [x] Moonwave 배경 스타일 - 각 화면에서 적용 완료
+  - [ ] 네비게이션 헤더 - 필요시 추가
+- [ ] `Header` 컴포넌트 개발 - 화면별로 단순하게 구성
+  - [ ] 뒤로가기 버튼 - 화면별로 구현
+  - [ ] 페이지 제목 - 화면별로 구현
+  - [ ] 액션 버튼 - 화면별로 구현
+- [x] `FloatingActionButton` 컴포넌트 개발 - Home에서 WaveButton으로 대체 완료
+
+---
+
+## 📄 화면별 페이지 개발
+
+### 7.1 라우팅 설정
+
+#### 시스템 구축 작업
+- [x] React Router 설정 (`src/App.tsx`) - 다음 단계
+- [x] 라우트 구조 설계 - 6개 주요 라우트 설정 완료
+  ```typescript
+  // 라우트 정의
+  / : 메인 화면 (여행 목록)
+  /trips/new : 여행 생성 화면
+  /trips/:id : 여행 상세 화면
+  /trips/:id/plans/new : 일정 생성 화면
+  /trips/:id/plans/:planId : 일정 편집 화면
+  /places/search : 장소 검색 화면
+  /trips/:id/map : 지도 보기 화면
+  ```
+- [ ] Protected Routes 설정 (인증 필요) - AuthProvider로 처리 예정
+- [ ] 404 페이지 구현 - 필요시 추가
+
+### 7.2 메인 화면 (Home) - HOME-001
+
+#### 시스템 구축 작업
+- [x] `/` 라우트 구현 - 완료
+- [x] HeroSection 구현 (통계 배지 포함) - 완료
+  ```tsx
+  <GlassCard variant="strong">
+    <h1>🌊 Moonwave Travel</h1>
+    <div>
+      <Badge>{tripCount} 여행</Badge>
+      <Badge>{countryCount} 국가</Badge>
+      <Badge>{planCount} 장소</Badge>
+    </div>
+  </GlassCard>
+  ```
+- [ ] 검색/필터 툴바 구현 - 필요시 추가
+- [x] TravelCardGrid 구현 (반응형 그리드) - 완료
+- [x] 새 여행 생성 버튼 (FloatingActionButton 대신 일반 버튼) - 완료
+- [x] 로딩 상태 및 빈 상태 처리 - 완료
+- [x] Firebase 실시간 구독 (onSnapshot) - 완료
+- [x] 익명 로그인 플로우 - 완료
+
+### 7.3 여행 생성 화면 (TripCreate) - CREATE-001
+
+#### 시스템 구축 작업
+- [x] `/trips/new` 라우트 구현 - 완료
+- [x] 이미지 업로드 폼 구현 (Firebase Storage 연동) - 완료
+- [x] 여행 기본 정보 폼 구현 - 완료
+  - [x] 제목 입력 (2-60자 검증) - 완료
+  - [x] 국가 선택 (프리셋 옵션) - 21개국 옵션
+  - [x] 날짜 범위 선택 (HTML5 date input) - 완료
+- [x] 실시간 일수 계산 표시 - 완료
+- [x] 폼 검증 및 에러 처리 - 완료
+- [x] 제출 시 Firebase 저장 - 완료
+- [x] 성공 시 상세 화면으로 이동 - 완료
+
+### 7.4 여행 상세 화면 (TripDetail) - DETAIL-001
+
+#### 시스템 구축 작업
+- [x] `/trips/:id` 라우트 구현 - 완료
+- [x] TripHeader 구현 (커버 이미지, 기본 정보, 진행률) - 완료
+- [x] Day 탭 네비게이션 구현 (Sticky) - 탭 방식으로 구현 완료
+- [x] PlanCard 목록 구현 (DayPlanCard → PlanCard) - 완료
+- [x] 빈 상태 처리 (계획 추가 버튼) - 완료
+- [x] 실시간 데이터 구독 (onSnapshot) - Trip & Plans 모두 완료
+- [x] 지도 보기 버튼 (헤더) - 완료
+- [x] 계획 추가/편집 네비게이션 - 완료
+- [x] 로딩 상태 처리 - 완료
+- [x] 권한 검사 및 에러 처리 - 완료
+
+### 7.5 일정 편집 화면 (PlanDetail) - PLAN-001
+
+#### 시스템 구축 작업
+- [ ] `/trips/:tripId/plans/new` 라우트 구현 (생성)
+- [ ] `/trips/:tripId/plans/:planId` 라우트 구현 (편집)
+- [ ] PlanHeader 구현 (Trip 요약 정보)
+- [ ] PlanFormCard 구현
+  - [ ] Day, 시간 선택
+  - [ ] 유형, 장소명 입력
+  - [ ] 주소, 평점 입력
+  - [ ] 위도/경도 입력 (지도 연동용)
+  - [ ] 지도/영상 링크 입력
+  - [ ] 메모 작성 (1000자 제한)
+  - [ ] 사진 업로드 (최대 5장)
+- [ ] 폼 검증 및 실시간 검증
+- [ ] Firebase Storage 이미지 업로드
+- [ ] 생성/수정/삭제 기능
+- [ ] 장소 검색 화면 연동
+
+### 7.6 장소 검색 화면 (PlaceSearch) - SEARCH-001
+
+#### 시스템 구축 작업
+- [ ] `/places/search` 라우트 구현
+- [ ] SearchHeader 구현
+  - [ ] 검색 입력 (300ms 디바운스)
+  - [ ] 유형 필터 (전체/관광지/식당/숙소/교통/기타)
+  - [ ] 정렬 옵션 (최근/즐겨찾기/자주 사용)
+- [ ] PlaceCard 목록 구현
+  - [ ] 장소 정보 표시
+  - [ ] 즐겨찾기 토글
+  - [ ] 사용 횟수 표시
+- [ ] 인라인 장소 추가 폼 구현
+- [ ] 빈 상태 처리 (새 장소 등록 안내)
+- [ ] 개인 라이브러리 CRUD (users/{uid}/places)
+- [ ] 선택 시 usage_count 증가 로직
+- [ ] Plan 편집 화면으로 데이터 전달
+
+### 7.7 지도 보기 화면 (TripMap) - MAP-001
+
+#### 시스템 구축 작업
+- [ ] `/trips/:id/map` 라우트 구현
+- [ ] MapContainer 구현 (react-leaflet)
+- [ ] 지도 렌더링 및 중심 좌표 설정
+- [ ] Plan 마커 표시 (좌표가 있는 경우만)
+- [ ] 유형별 아이콘 색상 구분
+- [ ] Popup 컴포넌트 (계획 상세 정보)
+- [ ] Day 필터링 사이드바
+- [ ] 좌표 입력 모달 구현
+- [ ] 좌표 저장 기능 (Firebase 업데이트)
+- [ ] 지도 타일 서버 설정 (OpenStreetMap)
+- [ ] 좌표 유효성 검증
+
+---
+
+## 🔥 Firebase 연동
+
+### 8.1 Authentication 구현
+
+#### 시스템 구축 작업
+- [x] `useAuth` 커스텀 훅 구현 - AuthContext.tsx 완료
+- [x] 익명 로그인 자동화 - Home 화면에서 구현 완료
+- [x] 사용자 상태 관리 (Context API) - AuthProvider 완료
+- [x] AuthProvider 컴포넌트 구현 - App.tsx에 적용 완료
+- [x] 로그아웃 기능 (선택적) - signOut 함수 구현 완료
+
+### 8.2 Firestore 연동
+
+#### 시스템 구축 작업
+- [x] `useTrips` 훅 구현 (여행 목록 구독) - Home 화면에서 구현 완료
+- [x] `useTrip` 훅 구현 (특정 여행 구독) - TripDetail 화면에서 구현 완룼
+- [x] `usePlans` 훅 구현 (일정 목록 구독) - TripDetail 화면에서 구현 완료
+- [ ] `usePlaces` 훅 구현 (개인 장소 라이브러리) - PlaceSearch에서 구현 예정
+- [x] CRUD 함수 구현 - Trip 생성 완료, Plan CRUD 예정
+  ```typescript
+  // Trip 관련
+  createTrip, updateTrip, deleteTrip
+  
+  // Plan 관련
+  createPlan, updatePlan, deletePlan
+  
+  // Place 관련
+  createPlace, updatePlace, deletePlace, toggleFavorite
+  ```
+- [x] 실시간 구독 최적화 (불필요한 리스너 제거) - useEffect cleanup 구현 완료
+
+### 8.3 Storage 연동
+
+#### 시스템 구축 작업
+- [x] 이미지 업로드 함수 구현 - TripCreate에서 구현 완료
+  ```typescript
+  uploadImage(file: File, path: string): Promise<string>
+  deleteImage(url: string): Promise<void>
+  ```
+- [ ] 이미지 압축 및 최적화 - 필요시 추가
+- [x] 업로드 진행률 표시 - loading 상태로 처리 완료
+- [x] 에러 처리 및 재시도 로직 - try-catch 및 에러 메시지 완료
+- [ ] 이미지 삭제 시 Storage 정리 - 필요시 추가
+
+---
+
+## 🗺️ 지도 기능 구현
+
+### 9.1 Leaflet 설정
+
+#### 시스템 구축 작업
+- [x] Leaflet CSS import
+- [x] react-leaflet 컴포넌트 설정
+- [x] OpenStreetMap 타일 레이어 설정
+- [ ] 대안 타일 서버 설정 (CartoDB, Stamen)
+- [x] 지도 기본 옵션 설정 (줌, 중심점)
+
+### 9.2 마커 및 팝업
+
+#### 시스템 구축 작업
+- [x] 커스텀 마커 아이콘 생성 (유형별 색상)
+  ```typescript
+  const createPlanIcon = (type: string) => L.divIcon({
+    html: `<div style="background: ${getTypeColor(type)}">
+             ${getTypeIcon(type)}
+           </div>`,
+    iconSize: [24, 24]
+  });
+  ```
+- [x] Popup 컴포넌트 구현
+- [x] 마커 클릭 이벤트 처리
+- [x] 지도 중심 이동 기능 (자동 bounds 설정)
+- [x] TravelMap 컴포넌트 완성 (MapController 포함)
+
+### 9.3 좌표 입력 시스템
+
+#### 시스템 구축 작업
+- [ ] 좌표 입력 모달 컴포넌트 - TripMap 화면에서 구현
+- [x] 좌표 유효성 검증 (위도: -90~90, 경도: -180~180) - TravelMap에서 적용
+- [ ] 좌표 저장 로직 (Firestore 업데이트) - PlanDetail에서 구현
+- [ ] 좌표 찾기 가이드 UI - TripMap에서 구현
+- [x] 에러 처리 및 사용자 피드백 - TravelMap에서 적용
+
+---
+
+## ⚡ 성능 최적화
+
+### 10.1 코드 최적화
+
+#### 시스템 구축 작업
+- [ ] React.memo 적용 (컴포넌트 재렌더링 최적화)
+- [ ] useMemo, useCallback 최적화 (계산 비용 절약)
+- [ ] 코드 스플리팅 구현
+  ```typescript
+  const TripDetail = lazy(() => import('./pages/TripDetail'));
+  const TripMap = lazy(() => import('./pages/TripMap'));
+  ```
+- [ ] 지연 로딩 (Lazy Loading) 구현
+- [ ] Bundle Analyzer로 번들 크기 최적화
+
+### 10.2 이미지 최적화
+
+#### 시스템 구축 작업
+- [ ] 이미지 압축 및 리사이징
+- [ ] WebP 포맷 지원
+- [ ] 이미지 lazy loading 구현
+- [ ] 썸네일 생성 (Client-side)
+- [ ] Progressive Image Loading
+
+### 10.3 Firebase 최적화
+
+#### 시스템 구축 작업
+- [ ] Firestore 쿼리 최적화 (인덱스 활용)
+- [ ] 실시간 구독 최소화 (필요한 것만)
+- [ ] 오프라인 지원 설정
+- [ ] 캐싱 전략 구현
+- [ ] Connection Pool 최적화
+
+### 10.4 지도 성능 최적화
+
+#### 시스템 구축 작업
+- [ ] 지도 타일 캐싱
+- [ ] 마커 클러스터링 (계획이 많을 때)
+- [ ] 뷰포트 기반 마커 로딩
+- [ ] 지도 인스턴스 메모이제이션
+
+---
+
+## 🚀 배포 및 인프라
+
+### 11.1 GitHub Actions 설정
+
+#### 시스템 구축 작업
+- [ ] `.github/workflows/deploy.yml` 생성
+  ```yaml
+  name: Deploy to Vercel
+  on:
+    push:
+      branches: [ main ]
+  jobs:
+    deploy:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - name: Setup Node.js
+          uses: actions/setup-node@v4
+          with:
+            node-version: 20
+        - name: Install dependencies
+          run: npm ci
+        - name: Build
+          run: npm run build
+          env:
+            VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+        - name: Deploy to Vercel
+          uses: amondnet/vercel-action@v25
+  ```
+- [ ] 환경변수 설정 (Secrets)
+- [ ] 빌드 테스트 자동화
+- [ ] 배포 상태 알림
+
+### 11.2 Vercel 배포 설정
+
+#### 개발자 작업
+- [ ] Vercel 프로젝트 연결
+- [ ] 도메인 연결 (`travel.moonwave.kr`)
+- [ ] 환경변수 설정 (Firebase Config)
+- [ ] Preview 배포 설정 (PR별)
+
+#### 시스템 구축 작업
+- [ ] `vercel.json` 설정 파일 생성
+- [ ] SPA 라우팅 설정
+- [ ] 정적 파일 최적화 설정
+- [ ] 압축 및 캐싱 헤더 설정
+
+### 11.3 PWA 설정
+
+#### 시스템 구축 작업
+- [ ] `manifest.json` 완성
+  ```json
+  {
+    "name": "Moonwave Travel",
+    "short_name": "Travel",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#9333ea",
+    "background_color": "#ffffff",
+    "icons": [...]
+  }
+  ```
+- [ ] Service Worker 구현 (Workbox)
+- [ ] 오프라인 지원
+- [ ] 앱 설치 프롬프트
+
+### 11.4 모니터링 설정
+
+#### 시스템 구축 작업
+- [ ] 에러 추적 설정 (Sentry 또는 Firebase Crashlytics)
+- [ ] 성능 모니터링 (Core Web Vitals)
+- [ ] 사용자 분석 도구 설정 (Firebase Analytics)
+- [ ] 헬스 체크 엔드포인트
+
+---
+
+## 🧪 테스트 및 품질 관리
+
+### 12.1 단위 테스트
+
+#### 시스템 구축 작업
+- [ ] Jest + React Testing Library 설정
+- [ ] 컴포넌트 테스트 작성
+  - [ ] GlassCard 컴포넌트 테스트
+  - [ ] TripCard 컴포넌트 테스트
+  - [ ] DayPlanCard 컴포넌트 테스트
+  - [ ] 폼 컴포넌트 테스트
+- [ ] 커스텀 훅 테스트
+  - [ ] useAuth 테스트
+  - [ ] useTrips 테스트
+  - [ ] usePlans 테스트
+- [ ] 유틸리티 함수 테스트
+
+### 12.2 통합 테스트
+
+#### 시스템 구축 작업
+- [ ] 페이지 통합 테스트
+- [ ] Firebase 연동 테스트 (모킹)
+- [ ] 라우팅 테스트
+- [ ] 상태 관리 테스트 (Context)
+- [ ] 폼 제출 플로우 테스트
+
+### 12.3 E2E 테스트
+
+#### 시스템 구축 작업
+- [ ] Playwright 설정
+- [ ] 사용자 시나리오 테스트
+  - [ ] 여행 생성 → 일정 추가 → 지도 확인 플로우
+  - [ ] 장소 검색 → 선택 → 일정에 추가 플로우
+  - [ ] 이미지 업로드 → 저장 플로우
+- [ ] 크로스 브라우저 테스트
+- [ ] 모바일 디바이스 테스트
+
+### 12.4 성능 테스트
+
+#### 시스템 구축 작업
+- [ ] Lighthouse 성능 테스트
+- [ ] Core Web Vitals 측정 (FCP, LCP, CLS, FID)
+- [ ] 번들 크기 모니터링
+- [ ] 이미지 최적화 검증
+- [ ] Firebase 쿼리 성능 측정
+
+### 12.5 접근성 테스트
+
+#### 시스템 구축 작업
+- [ ] WCAG 2.1 AA 준수 확인
+- [ ] 키보드 네비게이션 테스트
+- [ ] 스크린 리더 호환성 테스트
+- [ ] 색상 대비 검증
+- [ ] Focus Management 테스트
+
+---
+
+## 📱 반응형 및 모바일 최적화
+
+### 13.1 반응형 디자인
+
+#### 시스템 구축 작업
+- [ ] Container Queries 활용 (@container)
+- [ ] 브레이크포인트별 레이아웃 최적화
+  - [ ] 모바일: 단일 컬럼, 하단 액션
+  - [ ] 태블릿: 2컬럼 그리드
+  - [ ] 데스크톱: 3컬럼 그리드
+- [ ] 터치 친화적 인터페이스 (최소 44px)
+- [ ] 스와이프 제스처 지원
+
+### 13.2 모바일 최적화
+
+#### 시스템 구축 작업
+- [ ] 하단 시트 UI 패턴
+- [ ] 풀스크린 모달 (모바일)
+- [ ] 가로 모드 대응
+- [ ] 안전 영역 고려 (Safe Area)
+- [ ] 모바일 네트워크 최적화
+
+---
+
+## ✅ 최종 체크리스트
+
+### 14.1 출시 전 최종 확인
+
+#### 개발자 작업
+- [ ] 모든 환경변수 설정 확인
+- [ ] Firebase 보안 규칙 프로덕션 적용
+- [ ] 도메인 DNS 설정 확인
+- [ ] SSL 인증서 확인
+
+#### 시스템 구축 작업
+- [ ] 모든 페이지 기능 테스트 완료
+- [ ] Firebase 연동 테스트 완료
+- [ ] 지도 기능 테스트 완료
+- [ ] 이미지 업로드 테스트 완료
+- [ ] 성능 최적화 완료
+- [ ] 접근성 준수 확인
+- [ ] 크로스 브라우저 호환성 확인
+
+### 14.2 배포 후 확인
+
+#### 개발자 작업
+- [ ] 프로덕션 환경 동작 확인
+- [ ] 모바일 PWA 설치 테스트
+- [ ] 실제 사용자 데이터 테스트
+- [ ] 성능 모니터링 데이터 확인
+
+#### 시스템 구축 작업
+- [ ] 모니터링 시스템 정상 동작
+- [ ] 에러 로그 확인
+- [ ] 성능 메트릭 정상 수집
+- [ ] 백업 시스템 동작 확인
+
+---
+
+## 🎯 핵심 기능 요약
+
+### 필수 구현 기능
+1. **Firebase 익명 인증** - 자동 로그인, 사용자별 데이터 격리
+2. **실시간 데이터 동기화** - onSnapshot을 통한 실시간 업데이트
+3. **이미지 업로드** - Firebase Storage 연동, 압축 및 최적화
+4. **지도 기능** - Leaflet + OpenStreetMap, 좌표 기반 위치 표시
+5. **개인 장소 라이브러리** - 재사용 가능한 장소 데이터베이스
+6. **반응형 디자인** - 모바일 우선, Container Queries 활용
+
+### 성능 목표
+- **First Contentful Paint**: < 1.5s
+- **Largest Contentful Paint**: < 2.5s
+- **Cumulative Layout Shift**: < 0.1
+- **First Input Delay**: < 100ms
+- **Lighthouse Score**: > 90점
+
+---
+
+*이 체크리스트는 Moonwave 여행 관리 서비스의 완전한 개발을 위한 종합적인 가이드입니다. Firebase + React 19 기반의 현대적인 웹 애플리케이션을 구축하며, 실시간 데이터 동기화와 지도 기능을 포함한 완전한 여행 관리 솔루션을 제공합니다.*
