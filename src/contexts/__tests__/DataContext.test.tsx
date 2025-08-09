@@ -140,7 +140,7 @@ describe('DataContext', () => {
 
     it('구독 데이터를 성공적으로 로드해야 한다', async () => {
       // 구독 데이터 onSnapshot 모킹
-      mockOnSnapshot.mockImplementation((query, successCallback, errorCallback) => {
+      mockOnSnapshot.mockImplementation((query, successCallback, _errorCallback) => {
         if (query === 'subscriptions-query') {
           const mockSnapshot = {
             docs: mockSubscriptions.map(sub => ({
