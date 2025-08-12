@@ -19,6 +19,7 @@ import { doc, deleteDoc, collection, query, where, onSnapshot } from 'firebase/f
 import { db } from '../lib/firebase';
 import { Trip } from '../types/trip';
 import { Plan } from '../types/plan';
+import { addDaysYmd, getUtcWeekday, getUtcYmdParts } from '../utils/time';
 
 export const TripDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -135,7 +136,8 @@ export const TripDetail: React.FC = () => {
     return new Date(dateString).toLocaleDateString('ko-KR', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
+      timeZone: 'Asia/Seoul',
     });
   };
 
@@ -159,18 +161,16 @@ export const TripDetail: React.FC = () => {
 
   const getDayWithDate = (dayNumber: number) => {
     if (!trip) return `Day ${dayNumber}`;
-    
-    const start = new Date(trip.start_date);
-    const targetDate = new Date(start);
-    targetDate.setDate(start.getDate() + dayNumber - 1);
-    
-    const year = targetDate.getFullYear();
-    const month = String(targetDate.getMonth() + 1).padStart(2, '0');
-    const date = String(targetDate.getDate()).padStart(2, '0');
+
+    // Compute by adding (dayNumber - 1) days to start_date in a tz-agnostic way
+    const target = addDaysYmd(trip.start_date, dayNumber - 1);
+    const { year, month, day } = getUtcYmdParts(target);
+    const mm = String(month).padStart(2, '0');
+    const dd = String(day).padStart(2, '0');
     const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
-    const dayName = dayNames[targetDate.getDay()];
-    
-    return `${year}.${month}.${date}.${dayName}`;
+    const dayName = dayNames[getUtcWeekday(target)];
+
+    return `${year}.${mm}.${dd}.${dayName}`;
   };
 
   const getDayPlans = (day: number) => {

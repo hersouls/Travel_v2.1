@@ -10,6 +10,7 @@ import { Trip } from '../types/trip';
 import { Plus, Plane, MapPin, Calendar } from 'lucide-react';
 import { collection, query, where, onSnapshot, orderBy, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import { todayIsoKst } from '../utils/time';
 
 export const Home: React.FC = () => {
   const { user, loading: authLoading } = useAuth();
@@ -128,7 +129,10 @@ export const Home: React.FC = () => {
               <GlassCard variant="light" className="text-center p-4 animate-fade-in">
                 <Plane className="w-8 h-8 text-travel-purple mx-auto mb-2" />
                 <div className="text-2xl font-bold text-white">
-                  {trips.filter(trip => new Date(trip.end_date) < new Date()).length}
+                  {(() => {
+                    const todayKst = todayIsoKst();
+                    return trips.filter(trip => (trip.end_date || '') < todayKst).length;
+                  })()}
                 </div>
                 <div className="text-white/60 text-sm">완료</div>
               </GlassCard>
