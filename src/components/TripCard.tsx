@@ -26,7 +26,8 @@ export const TripCard: React.FC<TripCardProps> = ({
     return new Date(dateString).toLocaleDateString('ko-KR', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
+      timeZone: 'Asia/Seoul',
     });
   };
 

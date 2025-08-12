@@ -27,6 +27,7 @@ import {
 import { db } from '../lib/firebase';
 import { Trip } from '../types/trip';
 import { Plan } from '../types/plan';
+import { addDaysYmd, getUtcWeekday, getUtcYmdParts } from '../utils/time';
 
 export const TripMap: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -196,17 +197,15 @@ export const TripMap: React.FC = () => {
 
   const getDayWithDate = (dayNumber: number) => {
     if (!trip) return `Day ${dayNumber}`;
-    
-    const start = new Date(trip.start_date);
-    const targetDate = new Date(start);
-    targetDate.setDate(start.getDate() + dayNumber - 1);
-    
-    const month = String(targetDate.getMonth() + 1).padStart(2, '0');
-    const date = String(targetDate.getDate()).padStart(2, '0');
+
+    const target = addDaysYmd(trip.start_date, dayNumber - 1);
+    const { month, day } = getUtcYmdParts(target);
+    const mm = String(month).padStart(2, '0');
+    const dd = String(day).padStart(2, '0');
     const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
-    const dayName = dayNames[targetDate.getDay()];
-    
-    return `${month}.${date}.${dayName}`;
+    const dayName = dayNames[getUtcWeekday(target)];
+
+    return `${mm}.${dd}.${dayName}`;
   };
 
   const days = trip ? Array.from({ length: getTripDuration() }, (_, i) => i + 1) : [];

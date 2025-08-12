@@ -116,7 +116,7 @@ const PlaceCard: React.FC<PlaceCardProps> = ({ place, onSelect, onToggleFavorite
             </div>
             {place.created_at && (
               <span>
-                {place.created_at.toDate().toLocaleDateString('ko-KR')}
+                {place.created_at.toDate().toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' })}
               </span>
             )}
           </div>

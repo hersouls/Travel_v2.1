@@ -14,6 +14,7 @@ import { doc, getDoc, setDoc, Timestamp, collection } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../lib/firebase';
+import { addDaysYmd, getUtcWeekday, getUtcYmdParts } from '../utils/time';
 
 export const PlanDetail: React.FC = () => {
   const { tripId, planId } = useParams<{ tripId: string; planId: string }>();
@@ -249,18 +250,15 @@ export const PlanDetail: React.FC = () => {
 
   const getDayWithDate = (dayNumber: number) => {
     if (!trip) return `Day ${dayNumber}`;
-    
-    const start = new Date(trip.start_date);
-    const targetDate = new Date(start);
-    targetDate.setDate(start.getDate() + dayNumber - 1);
-    
-    const year = targetDate.getFullYear();
-    const month = String(targetDate.getMonth() + 1).padStart(2, '0');
-    const date = String(targetDate.getDate()).padStart(2, '0');
+
+    const target = addDaysYmd(trip.start_date, dayNumber - 1);
+    const { year, month, day } = getUtcYmdParts(target);
+    const mm = String(month).padStart(2, '0');
+    const dd = String(day).padStart(2, '0');
     const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
-    const dayName = dayNames[targetDate.getDay()];
-    
-    return `Day ${dayNumber} (${year}.${month}.${date}.${dayName})`;
+    const dayName = dayNames[getUtcWeekday(target)];
+
+    return `Day ${dayNumber} (${year}.${mm}.${dd}.${dayName})`;
   };
 
   const validateForm = () => {
