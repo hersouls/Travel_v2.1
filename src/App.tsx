@@ -31,7 +31,7 @@ function App() {
     <AuthProvider>
       <Router>
         <div className="min-h-screen relative">
-          <WaveBackground />
+          <WaveBackground className="min-h-screen" />
           
           {/* Conditional Header */}
           <ConditionalHeader />
