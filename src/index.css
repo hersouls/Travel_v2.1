@@ -102,11 +102,11 @@
 
   /* Wave utilities for WaveBackground */
   .animate-wave {
-    animation: waveDrift 18s ease-in-out infinite;
+    animation: wave 20s ease-in-out infinite;
   }
 
   .animate-wave-reverse {
-    animation: waveDriftReverse 22s ease-in-out infinite;
+    animation: wave-reverse 15s ease-in-out infinite;
   }
 
   .wave-accelerated {
@@ -138,12 +138,9 @@
 }
 
 @keyframes wave {
-  0%, 100% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(180deg);
-  }
+  0%   { transform: translateX(0) translateY(0); }
+  50%  { transform: translateX(20px) translateY(-10px); }
+  100% { transform: translateX(0) translateY(0); }
 }
 
 /* Subtle drifting motion for wave paths */
@@ -156,13 +153,10 @@
   }
 }
 
-@keyframes waveDriftReverse {
-  0%, 100% {
-    transform: translateY(0px) translateX(0px) scale(1);
-  }
-  50% {
-    transform: translateY(-8px) translateX(-12px) scale(1.01);
-  }
+@keyframes wave-reverse {
+  0%   { transform: translateX(0) translateY(0); }
+  50%  { transform: translateX(-20px) translateY(10px); }
+  100% { transform: translateX(0) translateY(0); }
 }
 
 @keyframes fadeIn {
