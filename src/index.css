@@ -10,9 +10,11 @@
   }
   
   body {
-    @apply bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white;
+    /* Background handled by WaveBackground; keep only typography and sizing */
+    @apply text-white;
     font-family: 'Inter', system-ui, sans-serif;
     min-height: 100vh;
+    background: transparent;
   }
 }
 
