@@ -30,13 +30,11 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="min-h-screen relative">
-          <WaveBackground className="min-h-screen" />
-          
+        <WaveBackground className="min-h-screen">
           {/* Conditional Header */}
           <ConditionalHeader />
-          
-          <div className="relative z-10 min-h-screen">
+
+          <div className="min-h-screen">
             <Suspense fallback={<LoadingFallback />}>
               <Routes>
                 <Route path="/" element={<Home />} />
@@ -56,10 +54,10 @@ function App() {
               </Routes>
             </Suspense>
           </div>
-          
+
           {/* Conditional Music Player - Fixed Bottom */}
           <ConditionalMusicPlayer />
-        </div>
+        </WaveBackground>
       </Router>
     </AuthProvider>
   );
