@@ -69,7 +69,7 @@ export function AboutMoonwaveModal({ isOpen, onClose }: AboutMoonwaveModalProps)
               id="modal-title"
               className="text-white text-2xl font-bold bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent"
             >
-              About Moonwave Travel
+              About Travel
             </h2>
             <WaveButton
               variant="ghost"
@@ -93,10 +93,10 @@ export function AboutMoonwaveModal({ isOpen, onClose }: AboutMoonwaveModalProps)
           >
             <div className="space-y-4">
               <h3 className="text-white text-2xl font-bold bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent">
-                🌊 당신만의 여행 파동을 만들어가는 Moonwave Travel
+                🌊 당신만의 여행 파동을 만들어가는 Travel
               </h3>
               <p className="text-white/90 text-base leading-relaxed tracking-normal">
-                Moonwave Travel은 이 철학에서 시작되었습니다.<br />
+                Travel은 이 철학에서 시작되었습니다.<br />
                 우리는 세상의 기준이 아닌, 각자의 고유한 여행 파동과 흐름으로 움직이는 여행 경험을 만들어갑니다.
               </p>
             </div>
@@ -107,7 +107,7 @@ export function AboutMoonwaveModal({ isOpen, onClose }: AboutMoonwaveModalProps)
               </h3>
               <h4 className="text-white text-lg font-semibold">우리가 믿는 것</h4>
               <p className="text-white/90 text-base leading-relaxed tracking-normal">
-                Moonwave Travel의 모든 것은 <strong>여행 파동(Wave)</strong>과 <strong>여행 흐름(Flow)</strong>이라는 두 가지 핵심 개념에서 출발합니다.
+                Travel의 모든 것은 <strong>여행 파동(Wave)</strong>과 <strong>여행 흐름(Flow)</strong>이라는 두 가지 핵심 개념에서 출발합니다.
               </p>
               <p className="text-white/90 text-base leading-relaxed tracking-normal">
                 <strong>여행 파동(Wave)</strong>은 각자가 가진 고유한 여행 철학과 감성의 진동입니다. 이는 남과 비교할 수 없는, 오직 자신만의 여행 방식입니다.
@@ -116,7 +116,7 @@ export function AboutMoonwaveModal({ isOpen, onClose }: AboutMoonwaveModalProps)
                 <strong>여행 흐름(Flow)</strong>은 그 파동을 현실에서 실현하는 여행 전략과 실행의 연결입니다. 끊임없이 움직이되, 자신만의 속도로 흐르는 여행입니다.
               </p>
               <p className="text-white/90 text-base leading-relaxed tracking-normal">
-                우리는 사용자가 자신만의 여행 파동을 발견하고, 그것을 지속 가능한 여행 흐름으로 만들 수 있도록 돕습니다. 이것이 Moonwave Travel이 추구하는 진정한 여행 경험입니다.
+                우리는 사용자가 자신만의 여행 파동을 발견하고, 그것을 지속 가능한 여행 흐름으로 만들 수 있도록 돕습니다. 이것이 Travel이 추구하는 진정한 여행 경험입니다.
               </p>
             </div>
 
@@ -172,7 +172,7 @@ export function AboutMoonwaveModal({ isOpen, onClose }: AboutMoonwaveModalProps)
                       <strong>자동 백업</strong>: 소중한 여행 데이터 안전 보관
                     </li>
                     <li className="text-white/90 text-base leading-relaxed tracking-normal">
-                      <strong>Moonwave Travel</strong>: 모든 여행 흐름이 하나로 연결되는 디지털 여행실
+                      <strong>Travel</strong>: 모든 여행 흐름이 하나로 연결되는 디지털 여행실
                     </li>
                   </ul>
                 </div>
@@ -371,7 +371,7 @@ export function AboutMoonwaveModal({ isOpen, onClose }: AboutMoonwaveModalProps)
               </h3>
               <h4 className="text-white text-lg font-semibold">당신만의 여행 파동을 찾고 계신가요?</h4>
               <p className="text-white/90 text-base leading-relaxed tracking-normal">
-                Moonwave Travel은 당신이 세상의 여행 속도에 휩쓸리지 않고, 자신만의 여행 파동과 흐름을 만들 수 있도록 돕습니다.
+                Travel은 당신이 세상의 여행 속도에 휩쓸리지 않고, 자신만의 여행 파동과 흐름을 만들 수 있도록 돕습니다.
               </p>
               <blockquote className="text-white text-lg italic leading-relaxed tracking-normal border-l-4 border-primary-400 pl-6">
                 "여행의 속도는 순간의 환호를 가져올지 모르나<br />
@@ -381,7 +381,7 @@ export function AboutMoonwaveModal({ isOpen, onClose }: AboutMoonwaveModalProps)
                 우리와 함께 당신만의 여행 파동을 발견하고, 지속 가능한 여행 흐름을 만들어가세요.
               </p>
               <div className="space-y-3">
-                <h4 className="text-white text-base font-semibold">Contact Moonwave Travel</h4>
+                <h4 className="text-white text-base font-semibold">Contact Travel</h4>
                 <ul className="list-disc list-inside space-y-2">
                   <li className="text-white/90 text-base leading-relaxed tracking-normal">
                     Email: deasoung@gmail.com
@@ -392,7 +392,7 @@ export function AboutMoonwaveModal({ isOpen, onClose }: AboutMoonwaveModalProps)
                 </ul>
               </div>
               <div className="space-y-3">
-                <h4 className="text-white text-base font-semibold">Moonwave Travel HQ</h4>
+                <h4 className="text-white text-base font-semibold">Travel HQ</h4>
                 <p className="text-white/90 text-base leading-relaxed tracking-normal">
                   전략적 디지털 여행실에서 당신의 여행 파동을 기다립니다.
                 </p>
@@ -402,7 +402,7 @@ export function AboutMoonwaveModal({ isOpen, onClose }: AboutMoonwaveModalProps)
                   *"We don't follow the travel waves, we create our own."*
                 </p>
                 <p className="text-white text-sm opacity-60 tracking-normal">
-                  © 2025 Moonwave Travel. All rights reserved.
+                  © 2025 Travel. All rights reserved.
                 </p>
               </div>
             </div>

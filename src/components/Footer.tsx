@@ -26,13 +26,13 @@ export function Footer() {
                 <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center shadow-lg">
                   <Moon size={14} className="text-white icon-enhanced" strokeWidth={2} />
                 </div>
-                <span className="text-white font-medium text-sm tracking-normal">Moonwave Travel</span>
+                <span className="text-white font-medium text-sm tracking-normal">Travel</span>
               </div>
 
               {/* Copyright Text */}
               <div className="text-center">
                 <p className="text-white/80 text-sm break-keep-ko leading-relaxed tracking-normal">
-                  © 2025 Moonwave Travel •{' '}
+                  © 2025 Travel •{' '}
                   <span className="text-white font-medium">
                     {user?.displayName || user?.email?.split('@')[0] || '사용자'}
                   </span>
@@ -46,7 +46,7 @@ export function Footer() {
                   to="/about" 
                   className="text-white/80 text-sm hover:text-primary-400 transition-colors duration-300 tracking-normal underline decoration-primary-400/50 hover:decoration-primary-400"
                 >
-                  About Moonwave Travel
+                  About Travel
                 </Link>
                 <span className="text-white/80 text-sm">•</span>
                 <Link 
