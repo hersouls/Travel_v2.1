@@ -156,7 +156,7 @@ export function AboutUs() {
                   </div>
                   <div>
                     <h1 className="text-white text-5xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                      Moonwave Travel
+                      Travel
                     </h1>
                     <p className="text-white text-lg opacity-80 tracking-normal">
                       당신만의 여행 파동과 흐름으로 만드는 여행 경험
@@ -172,7 +172,7 @@ export function AboutUs() {
                     나는 오직 나만의 여행 파동으로, 나만의 여행 흐름으로 존재한다."
                   </blockquote>
                   <p className="text-white text-sm opacity-60 tracking-normal">
-                    Moonwave Travel은 이 철학에서 시작되었습니다.
+                    Travel은 이 철학에서 시작되었습니다.
                   </p>
                 </div>
               </div>
@@ -185,19 +185,19 @@ export function AboutUs() {
               <div className="space-y-8">
                 <div className="text-center space-y-3">
                   <h2 className="text-white text-3xl font-bold bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent">
-                    About Moonwave Travel
+                    About Travel
                   </h2>
                   <p className="text-white text-lg opacity-80 tracking-normal">
-                    Moonwave Travel의 철학과 가치에 대해 더 자세히 알아보세요
+                    Travel의 철학과 가치에 대해 더 자세히 알아보세요
                   </p>
                 </div>
 
                 <div className="text-center space-y-4">
                   <p className="text-white text-base opacity-90 leading-relaxed tracking-normal">
-                    Moonwave Travel은 세상의 기준이 아닌, 각자의 고유한 여행 파동과 흐름으로 움직이는 여행 경험을 만들어갑니다.
+                    Travel은 세상의 기준이 아닌, 각자의 고유한 여행 파동과 흐름으로 움직이는 여행 경험을 만들어갑니다.
                   </p>
                   <p className="text-white text-sm opacity-60 tracking-normal">
-                    Footer의 "About Moonwave Travel" 링크를 클릭하여 더 자세한 정보를 확인하세요.
+                    Footer의 "About Travel" 링크를 클릭하여 더 자세한 정보를 확인하세요.
                   </p>
                 </div>
               </div>
@@ -384,7 +384,7 @@ export function AboutUs() {
                     여행 파동과 흐름은 진정한 여행 경험을 가져온다."
                   </blockquote>
                   <p className="text-white text-base opacity-80 tracking-normal">
-                    Moonwave Travel은 당신이 세상의 여행 속도에 휩쓸리지 않고, 자신만의 여행 파동과 흐름을 만들 수 있도록 돕습니다.
+                    Travel은 당신이 세상의 여행 속도에 휩쓸리지 않고, 자신만의 여행 파동과 흐름을 만들 수 있도록 돕습니다.
                   </p>
                 </div>
 
@@ -395,7 +395,7 @@ export function AboutUs() {
                     className="px-6 py-3"
                   >
                     <Mail className="w-5 h-5" />
-                    Contact Moonwave Travel
+                    Contact Travel
                   </WaveButton>
                   
                   <WaveButton
@@ -410,7 +410,7 @@ export function AboutUs() {
 
                 <div className="text-center space-y-3">
                   <p className="text-white text-sm opacity-60 tracking-normal">
-                    Moonwave Travel HQ
+                    Travel HQ
                   </p>
                   <p className="text-white text-sm opacity-80 tracking-normal">
                     전략적 디지털 여행실에서 당신의 여행 파동을 기다립니다.

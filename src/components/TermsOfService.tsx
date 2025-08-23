@@ -476,7 +476,7 @@ export function TermsOfService() {
 
                 <div className="pt-6 border-t border-white/20">
                   <p className="text-center text-sm text-white tracking-normal opacity-80">
-                    © 2025 Moonwave Travel by 문유(문대성). All rights reserved.
+                    © 2025 Travel by 문유(문대성). All rights reserved.
                   </p>
                 </div>
               </div>

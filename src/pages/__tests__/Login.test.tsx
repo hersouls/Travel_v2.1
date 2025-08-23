@@ -41,7 +41,7 @@ describe('Login', () => {
     it('로그인 폼이 표시되어야 한다', () => {
       renderWithRouter(<Login />);
 
-      expect(screen.getByText('Moonwave Travel')).toBeInTheDocument();
+      expect(screen.getByText('Travel')).toBeInTheDocument();
       expect(screen.getByText('여행의 모든 순간을 담다')).toBeInTheDocument();
       expect(screen.getAllByText('로그인').length).toBeGreaterThan(0);
       expect(screen.getByPlaceholderText('이메일을 입력하세요')).toBeInTheDocument();

@@ -133,7 +133,7 @@ export function Login() {
           <div className="text-center mb-8">
             <div className="text-5xl mb-4 animate-bounce-gentle">🌊</div>
             <h1 className="text-3xl font-bold text-white mb-2 text-glow">
-              Moonwave Travel
+              Travel
             </h1>
             <p className="text-white/80 text-lg">
               여행의 모든 순간을 담다

@@ -1,10 +1,10 @@
-const CACHE_NAME = 'moonwave-travel-v1.0.2';
+const CACHE_NAME = 'travel-pwa-v1.0.3';
 const SCOPE_URL = new URL(self.registration.scope);
 
 const PRECACHE_URLS = [
   '.',
   'index.html',
-  'moonwave-icon.svg',
+  'travel.svg',
   'manifest.json'
 ];
 
